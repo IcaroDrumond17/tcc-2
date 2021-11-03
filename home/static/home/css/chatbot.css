@@ -1,0 +1,101 @@
+/* css do sinal verder do chatboot */
+.status-chatbot {
+  height: 13px;
+  width: 13px;
+  background-color: lightgreen;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.chatbot-container{
+  overflow-x: hidden; 
+  overflow-y: hidden; 
+  width: 100%;
+  min-height: 300px;
+  height: auto; 
+}
+
+/* css de balão de diálogo */
+.talk-bubble {
+  display: inline-block;
+  position: relative;
+  min-width: 60px;
+  width: auto;
+  height: auto;
+  color: white;
+  border-radius: 15px;
+  z-index: 1;
+  word-break: break-all;
+}
+
+.talk-bubble:after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-radius: 15px;
+  z-index: -1;
+}
+
+.talk-ballon-right{
+  margin: 15px 20px 15px 5px;
+}
+
+.talk-ballon-right:after{
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 50px solid #8000ff; 
+  border-bottom: 15px solid transparent;
+  transform: rotate(315deg);
+  top: 25px;
+  right: 0;
+}
+
+.talk-ballon-left{
+  margin: 15px 5px 15px 20px;
+}
+
+.talk-ballon-left:after{
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 50px solid #00aabb;
+  border-bottom: 15px solid transparent;
+  transform: rotate(45deg);
+  top: 25px;
+  left: 0px;
+}
+
+.balloon-right {
+  float: right;
+}
+
+.balloon-left {
+  float: left;
+}
+
+.talktext {
+  padding: 1em;
+  line-height: 1.5em;
+}
+
+.text-rigth {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.talktext {
+  -webkit-margin-before: 0em;
+  -webkit-margin-after: 0em;
+}
+
+.talktext p{ margin: 0px !important;}
+
+.chatbot-input{
+  margin: 0 auto;
+  width: 95% !important;
+  border-radius: 1.25rem !important;
+}

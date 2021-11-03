@@ -1,0 +1,43 @@
+#virtual env
+pip install virtualenv
+
+#Cria um ambiente chamado tcc-2
+virtualenv.exe ambientes_virtuais\tcc-2
+
+#Para ativar o ambiente
+ambientes_virtuais\tcc-2\Scripts\activate
+
+# instalação do django
+pip install Django==2.2.5
+python -m django --version
+
+# criação do projeto
+django-admin startproject chatbot
+
+# execução do servidor
+python manage.py runserver
+
+# criação do aplicativo (cria pastas para estruturas)
+python manage.py startapp usuarios
+
+# criação da classe de tabela
+python manage.py makemigrations
+
+# criação das tabelas no banco
+python manage.py migrate
+
+# criação do super usuario
+python manage.py createsuperuser
+
+#LPN
+# instalação do pacote unicode
+pip install unidecode
+
+# instalação do pacote para validação de documentos
+pip install validate-docbr
+
+#instalação do pacote para validação de cep 
+pip install python-cep 
+#ou
+pip install Consulta-Correios
+#Funcionaou apenas -> ViaCEP Web Sevice
