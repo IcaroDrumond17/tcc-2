@@ -94,8 +94,11 @@
 
 .talktext p{ margin: 0px !important;}
 
-.chatbot-input{
-  margin: 0 auto;
-  width: 95% !important;
-  border-radius: 1.25rem !important;
+.chatbot-input span{
+  background-color: #00aabb !important;
 }
+
+.chatbot-input span i{
+  color: white !important;
+}
+

@@ -73,10 +73,12 @@ def salve(request):
 # edit question
 def edit(request, id):
 
+    items = q = Question.objects.filter();
     q = Question.objects.get(id=id)
 
     return render(request, 'questionEdit.html', {
         'data': q,
+        'items': items
     })
 
 # update question
