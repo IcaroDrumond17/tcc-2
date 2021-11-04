@@ -11,6 +11,8 @@ class Scraping(models.Model):
     data_analyzer_nlp4 = models.TextField() # dados analizados 4 //
     data_analyzer_nlp5 = models.TextField() # dados analizados 5 //
 
+    #criterio 0% 50% 100% repostas validas
+
     #retorno
     def __str__(self):
         return self.question

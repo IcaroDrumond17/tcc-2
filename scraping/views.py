@@ -60,7 +60,7 @@ def salve(request):
     data_analyzer_nlp4 = request.POST.get("data_analyzer_nlp4")
     data_analyzer_nlp5 = request.POST.get("data_analyzer_nlp5")
 
-    s = Scraping(
+    sp = Scraping(
         code=code,
         code_relation=code_relation,
         question=question,
@@ -72,9 +72,13 @@ def salve(request):
         data_analyzer_nlp5=data_analyzer_nlp5,
     )
 
-    s.save()
+    sp.save()
 
-    showAll()
+    s = Scraping.objects.filter()
+
+    return render(request, 'scrapings.html', {
+        'data': s,
+    })
 
 # delete Scraping
 def delete(request, id):
@@ -83,4 +87,8 @@ def delete(request, id):
 
     Scraping.objects.filter(id=id).delete()
 
-    showAll()
+    s = Scraping.objects.filter()
+
+    return render(request, 'scrapings.html', {
+        'data': s,
+    })

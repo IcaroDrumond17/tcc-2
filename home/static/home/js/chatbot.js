@@ -23,7 +23,7 @@ function perguntar() {
 
     const http = new XMLHttpRequest();
     // envio assicrono
-    http.open('GET', `/chatbot/input/${codBefore}/${questionSEND}`, true);
+    http.open('GET', `/chatbot/input/${codBefore}/${questionSEND.trim()}`, true);
     http.setRequestHeader('Content-Type', 'aplication/x-www-form-urlencoded');
 
     // lendo o estado de alteração do objeto http
@@ -57,7 +57,7 @@ function perguntar() {
                         </div>
                     </div>
                 </div> 
-
+                
                 <a href="#" id="end">
                 `;
 
