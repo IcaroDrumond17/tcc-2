@@ -43,6 +43,7 @@ def verbTenses(verb, n):
     # destokenize
     return ' '.join(temp)
 
+
 def textFormated(text):
 
     text = internetLanguage(text)
@@ -51,10 +52,13 @@ def textFormated(text):
     text = unidecode(text)
     text = text.lower()
     text = text.replace('?', '')
+    text = text.replace(',', '')
+
     text = text.strip()
 
     # verb tenses
     return verbTenses(text, 3)
+
 
 def input(request, code_before, question):
 
@@ -64,14 +68,11 @@ def input(request, code_before, question):
     question = question.lower()
 
     # get questions in database
-    if code_before > 0:
-        q = Question.objects.filter(code_relation=code_before)
-    else:
-        q = Question.objects.filter()
+    q = Question.objects.filter()
 
-    #inserted list
+    # inserted list
     result = list()
-    
+
     # web scraping here
     if len(q) <= 0:
         result.append({
@@ -82,54 +83,50 @@ def input(request, code_before, question):
             'output': 'É hora de usar o web scraping...'
         })
     else:
-        for x in q:
+        for a in q:
             result.append({
-                'code_current': x.code,
+                'code_current': a.code,
                 'code_before': code_before,
-                'question': x.question,
+                'question': a.question,
                 'input': question,
-                'output': x.answer
+                'output': a.answer
             })
 
     # question received
     question_received = textFormated(question)
 
-    find = False
-    code = ''
-
+    i = 0
+    controller = False
     # compare questions and return answers
-    for x in result:
+    for b in result:
+        i += 1
         # question found
-        question_found = textFormated(x['question'])
+        question_found = textFormated(b['question'])
 
-        qrList = question_received.split(' ')
-        qfList = question_found.split(' ')
-
-        # find questions received with found
-        for l in qrList:
-            # compare
-            if l in qfList:
-                code = x['code_current']
-                find = True
-        
-        if find == True:
-            find = False
+        if question_found == question_received:
+            controller = True
             break
 
     templist = list()
 
-    for x in result:
-        if code == x['code_current']:
-            templist.append(x)
+    print(controller)
+
+    l = 0
+    for c in result:
+        l += 1
+        if i == l and controller == True:
+            templist.append(c)
+            print(l, i)
             break
-        else:
-            templist.append({
-                'code_current': 0,
-                'code_before': code_before,
-                'question': question,
-                'input': question,
-                'output': 'É hora de usar o web scraping...'
-            })
+    
+    if len(templist) <= 0:
+        templist.append({
+            'code_current': 0,
+            'code_before': code_before,
+            'question': question,
+            'input': question,
+            'output': 'É hora de usar o web scraping...'
+        })
 
     result = templist
 
