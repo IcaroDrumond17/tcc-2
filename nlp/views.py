@@ -64,7 +64,10 @@ def input(request, code_before, question):
     question = question.lower()
 
     # get questions in database
-    q = Question.objects.filter()
+    if code_before > 0:
+        q = Question.objects.filter(code_relation=code_before)
+    else:
+        q = Question.objects.filter()
 
     #inserted list
     result = list()
@@ -91,7 +94,7 @@ def input(request, code_before, question):
     # question received
     question_received = textFormated(question)
 
-    equals = 0
+    find = False
     code = ''
 
     # compare questions and return answers
@@ -102,16 +105,16 @@ def input(request, code_before, question):
         qrList = question_received.split(' ')
         qfList = question_found.split(' ')
 
-        amount = 0
         # find questions received with found
         for l in qrList:
             # compare
             if l in qfList:
-                amount += 1
+                code = x['code_current']
+                find = True
         
-        if amount >= equals:
-            equals = amount
-            code = x['code_current']
+        if find == True:
+            find = False
+            break
 
     templist = list()
 
@@ -119,6 +122,14 @@ def input(request, code_before, question):
         if code == x['code_current']:
             templist.append(x)
             break
+        else:
+            templist.append({
+                'code_current': 0,
+                'code_before': code_before,
+                'question': question,
+                'input': question,
+                'output': 'É hora de usar o web scraping...'
+            })
 
     result = templist
 
