@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from questions.models import Question
+from scraping.models import Scraping
 from typing import List
 # importar o token csrf
 from django.views.decorators.csrf import csrf_protect

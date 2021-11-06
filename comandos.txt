@@ -41,3 +41,8 @@ pip install python-cep
 #ou
 pip install Consulta-Correios
 #Funcionaou apenas -> ViaCEP Web Sevice
+
+
+#web scraping
+#install berautilsoup
+pip install bs4

@@ -1,4 +1,6 @@
 from django.shortcuts import render
+import requests
+from bs4 import BeautifulSoup
 from .models import Scraping
 # importar o token csrf
 from django.views.decorators.csrf import csrf_protect
@@ -91,4 +93,47 @@ def delete(request, id):
 
     return render(request, 'scrapings.html', {
         'data': s,
+    })
+
+
+## Web Scraping
+def scraping(question):
+
+    if question:
+        # NLP aqui
+        question = question.strip()
+        question = question.replace(' ', '_')
+        print(question)
+        #scraping
+        #'https://pt.wikipedia.org/wiki/
+        response = requests.get('https://pt.wikipedia.org/wiki/'+question)
+        site = BeautifulSoup(response.content, 'html.parser')
+
+        temp = site.find('div', attrs={'id': 'noarticletext'})
+
+        if temp:
+            for s in temp.stripped_strings:
+                if 'A Wikipédia não possui um artigo com este nome exato'.lower() in s.lower():
+                    # response = requests.get('https://pt.wikipedia.org/w/index.php?search=   &ns0=1')
+                    return ['Não foi encontrado nada.']
+
+        temp = site.find('div', attrs={'class': 'mw-parser-output'})
+        import re
+        temp = site.find_all(re.compile("^p"))
+        data = list()
+
+        for item in temp:
+            data.append(item.text)
+
+        return data
+
+    else:
+        return ['Não foi encontrado nada.']
+
+def start(request):
+
+    question = 'Icaro'
+
+    return render(request, 'scrapings.html', {
+        'data': scraping(question),
     })

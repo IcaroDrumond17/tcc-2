@@ -23,4 +23,5 @@ urlpatterns = [
     path('home/', include('home.urls')),
     path('perguntas/', include('questions.urls')),
     path('chatbot/', include('nlp.urls')),
+    path('scrapings/', include('scraping.urls')),
 ]
