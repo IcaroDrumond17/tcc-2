@@ -51,13 +51,11 @@ def new(request):
 @csrf_protect
 def salve(request):
     code = getCode()
-    code_relation = request.POST.get("code_relation")
     question = request.POST.get("question")
     answer = request.POST.get("answer")
 
     q = Question(
         code=code,
-        code_relation=code_relation,
         question=question,
         answer=answer
     )
@@ -87,12 +85,10 @@ def edit(request, id):
 def update(request):
 
     id = int(request.POST.get("id"))
-    code_relation = request.POST.get("code_relation")
     question = request.POST.get("question")
     answer = request.POST.get("answer")
 
     Question.objects.filter(id=id).update(
-        code_relation=code_relation,
         question=question,
         answer=answer
     )

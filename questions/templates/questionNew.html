@@ -37,14 +37,6 @@
         <h2>Cadastrar Nova Pergunta</h2>
         <form action="/perguntas/pergunta-novo-salvar/" method="POST" name="form-question-new">{%csrf_token%}
             <div class="form-group">
-                <select class="form-control" name="code_relation" id="code_relation">
-                    <option value="0">Relação com a Resposta Anterior</option>
-                    {% for item in data %}
-                    <option value="{{item.code}}">{{item.question}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
                 <label for="question">Pergunta:</label>
                 <input class="form-control" type="text" name="question" id="question" value="">
             </div>
@@ -60,17 +52,6 @@
     </div>
 
     <script type="text/javascript">
-        const code_relation = document.getElementById('code_relation');
-        try{
-            const _code_relation = parseInt("{{data.code_relation}}");
-            if (_code_relation > 0)
-                code_relation.value = "{{data.code_relation}}"
-            else
-                code_relation.value = 0
-        }catch(err){
-            code_relation.value = "{{data.code_relation}}"
-        }
-        
         const answer = document.getElementById('answer');
         answer.innerHTML = answer.value.trim();
     </script>

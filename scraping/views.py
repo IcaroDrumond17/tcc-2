@@ -53,7 +53,6 @@ def new(request):
 @csrf_protect
 def salve(request):
     code = getCode()
-    code_relation = request.POST.get("code_relation")
     question = request.POST.get("question")
     answer = request.POST.get("answer")
     data_analyzer_nlp1 = request.POST.get("data_analyzer_nlp1")
@@ -64,7 +63,6 @@ def salve(request):
 
     sp = Scraping(
         code=code,
-        code_relation=code_relation,
         question=question,
         answer=answer,
         data_analyzer_nlp1=data_analyzer_nlp1,
@@ -118,8 +116,10 @@ def scraping(question):
                     return ['Não foi encontrado nada.']
 
         temp = site.find('div', attrs={'class': 'mw-parser-output'})
+        
         import re
         temp = site.find_all(re.compile("^p"))
+
         data = list()
 
         for item in temp:

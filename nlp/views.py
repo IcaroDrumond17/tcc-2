@@ -61,7 +61,7 @@ def textFormated(text):
     return verbTenses(text, 3)
 
 
-def input(request, code_before, question):
+def input(request, question):
 
     # remove caracters %20
     question = question.replace('%20', ' ')
@@ -78,7 +78,6 @@ def input(request, code_before, question):
     if len(q) <= 0:
         result.append({
             'code_current': 0,
-            'code_before': code_before,
             'question': question,
             'input': question,
             'output': 'É hora de usar o web scraping...'
@@ -87,7 +86,6 @@ def input(request, code_before, question):
         for a in q:
             result.append({
                 'code_current': a.code,
-                'code_before': code_before,
                 'question': a.question,
                 'input': question,
                 'output': a.answer
@@ -123,7 +121,6 @@ def input(request, code_before, question):
     if len(templist) <= 0:
         templist.append({
             'code_current': 0,
-            'code_before': code_before,
             'question': question,
             'input': question,
             'output': 'É hora de usar o web scraping...'

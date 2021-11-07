@@ -38,14 +38,6 @@
         <form action="/perguntas/pergunta-remover-salvar/" method="POST" name="form-question-remove">{%csrf_token%}
             <input type="hidden" name="id" value="{{data.id}}">
             <div class="form-group">
-                <select class="form-control" name="code_relation" id="code_relation"  disabled="true">
-                    <option value="0">Relação com a Resposta Anterior</option>
-                    {% for item in items %}
-                    <option value="{{item.code}}">{{item.question}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
                 <label for="question">Pergunta:</label>
                 <input class="form-control" type="text" name="question" id="question" value="{{data.question}}"  disabled="true">
             </div>
@@ -63,17 +55,6 @@
     </div>
 
     <script type="text/javascript">
-        const code_relation = document.getElementById('code_relation');
-        try{
-            const _code_relation = parseInt("{{data.code_relation}}");
-            if (_code_relation > 0)
-                code_relation.value = "{{data.code_relation}}"
-            else
-                code_relation.value = 0
-        }catch(err){
-            code_relation.value = "{{data.code_relation}}"
-        }
-        
         const answer = document.getElementById('answer');
         answer.innerHTML = answer.value.trim();
     </script>

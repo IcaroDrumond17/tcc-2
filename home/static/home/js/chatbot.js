@@ -14,16 +14,13 @@ function perguntar() {
     questionSEND = questionSEND.replace(/[^a-zA-Z0-9@,.;:!-?\s]/g, '');
 
     const msg = document.getElementById('msg');
-    const code_before = document.getElementById('code_before');
 
     let msgLines = msg.innerHTML;
     msgLines = msgLines.replace('<a href="#" id="end">', '');
 
-    const codBefore = Number(code_before.value);
-
     const http = new XMLHttpRequest();
     // envio assicrono
-    http.open('GET', `/chatbot/input/${codBefore}/${questionSEND.trim()}`, true);
+    http.open('GET', `/chatbot/input/${questionSEND.trim()}`, true);
     http.setRequestHeader('Content-Type', 'aplication/x-www-form-urlencoded');
 
     // lendo o estado de alteração do objeto http
@@ -32,7 +29,6 @@ function perguntar() {
             // se o estado foi concluido
             let objJSON = JSON.parse(http.responseText);
             if (objJSON.length > 0) {
-                code_before.value = objJSON[0].code_current;
 
                 const input_question = question;
                 const output = objJSON[0].output.toString().trim();
