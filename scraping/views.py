@@ -1,3 +1,4 @@
+from typing import Text
 from django.shortcuts import render
 import requests
 from bs4 import BeautifulSoup
@@ -8,6 +9,8 @@ from django.views.decorators.csrf import csrf_protect
 # Create your views here.
 
 # generate code
+
+
 def getCode():
     from datetime import datetime
     dataHora = datetime.now()
@@ -31,6 +34,8 @@ def showAll(request):
     })
 
 # get Scraping
+
+
 def show(request, id):
 
     s = Scraping.objects.get(id=id)
@@ -40,6 +45,8 @@ def show(request, id):
     })
 
 # new Scraping
+
+
 def new(request):
 
     s = Scraping.objects.filter()
@@ -50,6 +57,8 @@ def new(request):
 
 # salve new Scraping
 # method post use csrf
+
+
 @csrf_protect
 def salve(request):
     code = getCode()
@@ -81,6 +90,8 @@ def salve(request):
     })
 
 # delete Scraping
+
+
 def delete(request, id):
 
     id = int(id)
@@ -94,45 +105,66 @@ def delete(request, id):
     })
 
 
-## Web Scraping
+# Web Scraping
 def scraping(question):
 
     if question:
-        # NLP aqui
+        # NLP here
         question = question.strip()
         question = question.replace(' ', '_')
         print(question)
-        #scraping
-        #'https://pt.wikipedia.org/wiki/
+        # scraping target
+        # 'https://pt.wikipedia.org/wiki/
         response = requests.get('https://pt.wikipedia.org/wiki/'+question)
-        site = BeautifulSoup(response.content, 'html.parser')
+        site = BeautifulSoup(response.text, 'html.parser')
 
+        # identification of a standard class in the html that contains the fetched data
         temp = site.find('div', attrs={'id': 'noarticletext'})
 
         if temp:
             for s in temp.stripped_strings:
+                # message for when the required data does not exist and or the search did not return anything
                 if 'A Wikipédia não possui um artigo com este nome exato'.lower() in s.lower():
                     # response = requests.get('https://pt.wikipedia.org/w/index.php?search=   &ns0=1')
-                    return ['Não foi encontrado nada.']
+                    return {
+                        'id': 0,
+                        'text': 'Sem Resultados.',
+                        'tag': '</>'
+                    }
 
+        # new identification of a standard class in the html that contains the fetched data
         temp = site.find('div', attrs={'class': 'mw-parser-output'})
-        
-        import re
-        temp = site.find_all(re.compile("^p"))
 
-        data = list()
+        if temp:
+            # through a regular expression, searching only the data between the <p></p> tags
+            import re
+            temp = temp.find_all(re.compile("^p"))
 
-        for item in temp:
-            data.append(item.text)
+            data = list()
+            # entering data into a list
+            i = 0
+            for item in temp:
+                data.append({
+                    'id': i+1,
+                    'text': item.text,
+                    'tag': item
+                })
+                i += 1
 
-        return data
+            return data
 
-    else:
-        return ['Não foi encontrado nada.']
+    return {
+        'id': 0,
+        'text': 'Sem Resultados.',
+        'tag': '</>'
+    }
+
+# get data
+
 
 def start(request):
 
-    question = 'Icaro'
+    question = "Brasil"
 
     return render(request, 'scrapings.html', {
         'data': scraping(question),
