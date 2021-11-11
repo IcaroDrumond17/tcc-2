@@ -11,7 +11,8 @@ function perguntar() {
     // remove acentos
     let questionSEND = question.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     // remove caracteres não alfanumericos
-    questionSEND = questionSEND.replace(/[^a-zA-Z0-9@,.;:!-?\s]/g, '');
+    questionSEND = questionSEND.split('/').join('-');
+    questionSEND = questionSEND.replace(/[^a-zA-Z0-9@,.;:?!-\s]/g, '');
 
     const msg = document.getElementById('msg');
 

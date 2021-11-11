@@ -7,6 +7,9 @@ from django.views.decorators.csrf import csrf_protect
 # recurso json para emitir respostas no formato json
 from django.http import JsonResponse
 from unidecode import unidecode
+import spacy
+import nltk
+import re  # expressoes regulares
 
 # Create your views here.
 
@@ -27,44 +30,70 @@ def internetLanguage(item):
     return item
 
 
-def verbTenses(verb, n):
+#nltk
+def stemization(text):
 
-    # tokenize
-    verb = verb.split(' ')
+    tokenizador = nltk.WhitespaceTokenizer()
+    radical = nltk.RSLPStemmer()
 
-    # remove the last 3 words to standardize verb tenses
-    temp = list()
-    for x in verb:
-        if len(x) > 3:
-            # remove the last 3 words
-            temp.append(x[0:len(x)-n])
-        else:
-            temp.append(x)
+    tokenized_text = tokenizador.tokenize(text)
 
-    # destokenize
-    return ' '.join(temp)
+    items = []
+
+    for p in tokenized_text:
+        items.append(radical.stem(p))
+    
+    return ' '.join(items)
 
 
 def textFormated(text):
 
-    text = internetLanguage(text)
-
-    # question received
+     # question received
     text = unidecode(text)
     text = text.lower()
     text = text.replace('?', '')
     text = text.replace(',', '')
-
     text = text.strip()
 
+    text = internetLanguage(text)
+
     # verb tenses
-    return verbTenses(text, 3)
+    return stemization(text)
+
+
+def nlpSpacy(question):
+    # ADJ - adjetivo
+    # CCONJ - Conjunção
+    # DET - Determinar
+    # NOUN - Substantivo
+    # PRON - Pronome
+    # ADV - Adverbio
+    # VERB - Verbo
+    # ADP - Adposição
+    # NUM - Numero
+    # DAT - Data
+    # interjeição
+    # PUNC - Pontuação
+    # PROPN -nome proprio
+    nlp = spacy.load("pt_core_news_sm") 
+    question = nlp(question)
+
+    for i in question:
+        print("-> "+i.text+" -> "+i.pos_)
+
+    return 0
 
 
 def input(request, question):
 
     # remove caracters %20
     question = question.replace('%20', ' ')
+
+    print("=========================")
+    print(question)
+    nlpSpacy(question)
+    print("=========================")
+
     # lowercase
     question = question.lower()
 
@@ -73,6 +102,8 @@ def input(request, question):
 
     # inserted list
     result = list()
+    
+
 
     # web scraping here
     if len(q) <= 0:
@@ -108,16 +139,13 @@ def input(request, question):
 
     templist = list()
 
-    print(controller)
-
     l = 0
     for c in result:
         l += 1
         if i == l and controller == True:
             templist.append(c)
-            print(l, i)
             break
-    
+
     if len(templist) <= 0:
         templist.append({
             'code_current': 0,
@@ -129,3 +157,9 @@ def input(request, question):
     result = templist
 
     return JsonResponse(result, safe=False)
+
+
+# tokenização
+def tokenizador():
+
+    return []

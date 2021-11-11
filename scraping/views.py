@@ -112,7 +112,6 @@ def scraping(question):
         # NLP here
         question = question.strip()
         question = question.replace(' ', '_')
-        print(question)
         # scraping target
         # 'https://pt.wikipedia.org/wiki/
         response = requests.get('https://pt.wikipedia.org/wiki/'+question)
@@ -164,7 +163,7 @@ def scraping(question):
 
 def start(request):
 
-    question = "Brasil"
+    question = "Como cozinhar bananas"
 
     return render(request, 'scrapings.html', {
         'data': scraping(question),

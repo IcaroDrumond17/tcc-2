@@ -42,7 +42,12 @@ pip install python-cep
 pip install Consulta-Correios
 #Funcionaou apenas -> ViaCEP Web Sevice
 
-
 #web scraping
 #install berautilsoup
 pip install bs4
+
+#arq bert
+pip install bert-for-tf2
+
+#tokenizador
+pip install sentencepiece
